@@ -112,10 +112,10 @@ RUN if [ ${INSTALL_XDEBUG} = false -a ${INSTALL_BLACKFIRE} = true ]; then \
 ###########################################################################
 
 ARG INSTALL_PHPREDIS=false
-
+COPY ./redis-4.0.2.tgz /tmp
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
-    printf "\n" | pecl install -o -f redis \
+    printf "\n" | pecl install -o -f /tmp/redis-4.0.2.tgz \
     &&  rm -rf /tmp/pear \
     &&  docker-php-ext-enable redis \
 ;fi
@@ -368,10 +368,10 @@ RUN if [ ${INSTALL_IMAGE_OPTIMIZERS} = true ]; then \
 USER root
 
 ARG INSTALL_IMAGEMAGICK=false
-
+COPY ./imagick-3.4.3.tgz /tmp
 RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
     apt-get install -y libmagickwand-dev imagemagick && \
-    pecl install imagick && \
+    pecl install /tmp/imagick-3.4.3.tgz && \
     docker-php-ext-enable imagick \
 ;fi
 

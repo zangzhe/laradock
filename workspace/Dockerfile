@@ -274,9 +274,10 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ARG INSTALL_PHPREDIS=false
 ARG PHP_VERSION=${PHP_VERSION}
 
+COPY ./redis-4.0.2.tgz /tmp/redis-4.0.2.tgz
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis extension
-    printf "\n" | pecl -q install -o -f redis && \
+    printf "\n" | pecl -q install -o -f /tmp/redis-4.0.2.tgz && \
     echo "extension=redis.so" >> /etc/php/${PHP_VERSION}/mods-available/redis.ini && \
     phpenmod redis \
 ;fi
